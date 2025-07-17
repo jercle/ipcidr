@@ -19,22 +19,18 @@
   "license": "GPL-3.0",
   "scripts": {
     "test": "mocha",
-    "build": "browserify ./ip-cidr.js -p esmify > ./dist/ip-cidr.js"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run test && npm run build && git add ./dist/*"
-    }
+    "build": "browserify ./ip-cidr.js -p esmify > ./dist/ip-cidr.js",
+    "prepare": "husky"
   },
   "dependencies": {
     "ip-address": "^10.0.1"
   },
   "devDependencies": {
-    "browserify": "^17.0.0",
-    "chai": "^4.3.0",
+    "browserify": "^17.0.1",
+    "chai": "^5.2.1",
     "esmify": "^2.1.1",
-    "husky": "^4.2.3",
-    "mocha": "^10.0.0"
+    "husky": "^9.1.7",
+    "mocha": "^11.7.1"
   },
   "repository": {
     "type": "git",

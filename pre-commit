@@ -1,0 +1,3 @@
+npm run test // [!code hl]
+npm run build // [!code hl]
+git add ./dist/* // [!code hl]
