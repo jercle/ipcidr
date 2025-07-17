@@ -1,6 +1,6 @@
 "use strict";
 
-import ipAddress from 'ip-address';
+import {Address4, Address6} from 'ip-address';
 
 class IPCIDR {
   constructor(cidr) {
@@ -13,19 +13,19 @@ class IPCIDR {
     this.ipAddressType = address.constructor;
     this.address = address;
     this.addressStart = address.startAddress();
-    this.addressEnd = address.endAddress();    
+    this.addressEnd = address.endAddress();
     this.addressStart.subnet = this.addressEnd.subnet = this.address.subnet;
     this.addressStart.subnetMask = this.addressEnd.subnetMask = this.address.subnetMask;
-    const end = BigInt(this.addressEnd.bigInteger());
-    const start = BigInt(this.addressStart.bigInteger());
+    const end = this.addressEnd.bigInt();
+    const start = this.addressStart.bigInt();
     this.size = end - start + 1n;
   }
-  
+
   contains(address) {
     try {
-      if(!(address instanceof ipAddress.Address6) && !(address instanceof ipAddress.Address4)) {
+      if(!(address instanceof Address6) && !(address instanceof Address4)) {
         if(typeof address == 'bigint') {
-          address = this.ipAddressType.fromBigInteger(address);
+          address = this.ipAddressType.fromBigInt(address);
         }
         else {
           address = this.constructor.createAddress(address);
@@ -36,7 +36,7 @@ class IPCIDR {
     }
     catch(err) {
       return false;
-    }   
+    }
   }
 
   start(options) {
@@ -76,13 +76,13 @@ class IPCIDR {
 
     this.loopInfo(info, (val) => {
       const num = start + val;
-      const ip = this.constructor.formatIP(this.ipAddressType.fromBigInteger(num), options);
+      const ip = this.constructor.formatIP(this.ipAddressType.fromBigInt(num), options);
       list.push(ip);
     });
 
     return list;
   }
-  
+
   loop(fn, options, results) {
     options = options || {};
     const promise = [];
@@ -90,14 +90,14 @@ class IPCIDR {
     const end = this.constructor.formatIP(this.addressEnd, { type: 'bigInteger' });
     const length = end - start + 1n;
     const info = this.getChunkInfo(length, options);
-    
+
     if(results)  {
       Object.assign(results, info);
     }
 
     this.loopInfo(info, (val) => {
       const num = start + val;
-      const ip = this.constructor.formatIP(this.ipAddressType.fromBigInteger(num), options);
+      const ip = this.constructor.formatIP(this.ipAddressType.fromBigInt(num), options);
       promise.push(fn(ip));
     });
 
@@ -139,14 +139,14 @@ class IPCIDR {
     }
     else {
       limit = limit !== undefined? getBigInteger(limit): length;
-    }   
+    }
 
     maxLength = length - from;
-    
+
     if(limit > maxLength) {
       limit = maxLength;
     }
-    
+
     to = from + limit;
     return {
       from: from,
@@ -161,7 +161,7 @@ IPCIDR.formatIP = function(address, options) {
   options = options || {};
 
   if (options.type == "bigInteger") {
-    return BigInt(address.bigInteger());
+    return BigInt(address.bigInt());
   }
   else if (options.type == "addressObject") {
     return address;
@@ -176,11 +176,11 @@ IPCIDR.createAddress = function (val) {
   }
 
   val.match(/:.\./) && (val = val.split(':').pop());
-  const ipAddressType = val.match(":")? ipAddress.Address6: ipAddress.Address4;
+  const ipAddressType = val.match(":")? Address6: Address4;
   let ip = new ipAddressType(val);
 
-  if(ip.v4 && val.match(":") && ip.address4) {
-    ip = ip.address4;
+  if(ip.v4 && val.match(":") && ip.address) {
+    ip = ip.address;
   }
 
   if(ip.v4) {

@@ -1,13 +1,12 @@
 {
-  "name": "ip-cidr",
-  "version": "4.0.2",
+  "name": "ipcidr",
+  "version": "1.0.0",
   "description": "Module for working with CIDR (v4, v6)",
   "main": "./index.js",
   "type": "module",
   "types": "./index.d.ts",
   "author": {
-    "name": "Alexander Balasyan",
-    "email": "mywebstreet@gmail.com"
+    "author": "Evan Colwell @jercle"
   },
   "keywords": [
     "ip",
@@ -17,7 +16,7 @@
     "to",
     "array"
   ],
-  "license": "MIT",
+  "license": "GPL-3.0",
   "scripts": {
     "test": "mocha",
     "build": "browserify ./ip-cidr.js -p esmify > ./dist/ip-cidr.js"
@@ -28,7 +27,7 @@
     }
   },
   "dependencies": {
-    "ip-address": "^9.0.5"
+    "ip-address": "^10.0.1"
   },
   "devDependencies": {
     "browserify": "^17.0.0",
@@ -39,9 +38,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ortexx/ip-cidr"
+    "url": "https://github.com/jercle/ipcidr"
   },
   "engines": {
-    "node": ">=16.14.0"
+    "node": ">=22.17.1"
   }
 }
