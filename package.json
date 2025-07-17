@@ -5,9 +5,7 @@
   "main": "./index.js",
   "type": "module",
   "types": "./index.d.ts",
-  "author": {
-    "author": "Evan Colwell @jercle"
-  },
+  "author": "Evan Colwell @jercle",
   "keywords": [
     "ip",
     "cidr",
